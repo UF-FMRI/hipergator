@@ -29,7 +29,7 @@ for ses in 01
 do
 
 BIDS_dir_sub_ses=$BIDS_dir/sub-${SUB}/ses-${ses}/anat/
-T1_sub_ses=sub-${SUB}_ses-${ses}_T1w.nii
+T1_sub_ses=sub-${SUB}_ses-${ses}_T1w.nii.gz
 image=${BIDS_dir_sub_ses}${T1_sub_ses}
 #checking if T1 exists
 if [ -f ${image}];
