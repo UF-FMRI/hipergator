@@ -37,12 +37,6 @@ if [ -f ${image}];
     #run pydeface
     then pydeface ${image}
 
-    #checking if pydeface ran successfully
-    if [ -f ${image}_defaced.nii ];
-      #remove the old T1 (that is not defaced)
-      then rm ${image}
-      #rename the defaced T1 to be BIDS compliant
-      mv ${image}_defaced.nii ${image}_T1w.nii
 
     #if pydeface did not run successfully
     else
