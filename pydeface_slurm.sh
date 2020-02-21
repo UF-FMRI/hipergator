@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --account=XXXXaccountnamehere
-#SBATCH --qos=XXXXqosnamehere
+#SBATCH --account=stevenweisberg
+#SBATCH --qos=stevenweisberg
 #SBATCH --job-name=pydeface
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=stevenweisberg@ufl.edu
