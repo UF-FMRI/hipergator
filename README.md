@@ -1,5 +1,17 @@
 # data_preprocessing
-This repository contains code to use for preprocessing fMRI data. This was originally created for the Ebner Lab OT Aging study.
+This repository contains code to use for preprocessing fMRI data on the [UF Hipergator](https://help.rc.ufl.edu/doc/UFRC_Help_and_Documentation). 
+
+This was originally created for the [Ebner Lab OT Aging study](https://github.com/rjpolk/data_preprocessing), with initial modification by Steven Weisberg.
+
+Instructions for use: 
+
+It is recommended that you fork this repo over to your own Github account. That way you can modify as you see fit and keep scripts with their custom group names and requirements for your own lab. Once you have done that, you can clone THAT repo onto Hipergator. It is recommended that you make changes locally (on a text editor on your own computer), then push them to the repo and pull them on Hipergator. Alternatively, you could make changes directly on Hipergator and push them from there. 
+
+1. Create a Hipergator account. 
+2. Login and navigate to your /ufrc/GROUP/USERNAME/ 
+3. Git clone https://github.com/GITHUBACCOUNT/hipergator.git
+4. (Optional): Add to your .bashrc - alias hip="cd /ufrc/GROUP/USERNAME/hipergator"  
+
 
 Steps:
 1. Convert raw dicoms to BIDS compliant niftis: 
