@@ -1,0 +1,84 @@
+{
+  "descriptions": [
+    {
+      "dataType": "anat",
+      "modalityLabel": "T1w",
+      "criteria":{
+        "SeriesDescription": "*MPRAGE*",
+        "SidecarFilename": "*MPRAGE*"
+      }
+    },
+    {
+      "dataType": "func",
+      "modalityLabel": "bold",
+      "customLabels": "task-spatial-directions",
+      "criteria":{
+        "SeriesDescription": "*BOLD_RUN1*",
+        "SidecarFilename": "*BOLD_RUN1*"
+      },
+      "sidecarChanges": {
+        "TaskName": "spatial_directions"
+      }
+    },
+    {
+      "dataType": "func",
+      "modalityLabel": "bold",
+      "customLabels": "task-spatial-directions",
+      "criteria":{
+        "SeriesDescription": "*BOLD_RUN2*",
+        "SidecarFilename": "*BOLD_RUN2*"
+      },
+      "sidecarChanges": {
+        "TaskName": "spatial_directions"
+      }
+    },
+    {
+      "dataType": "func",
+      "modalityLabel": "bold",
+      "customLabels": "task-spatial-directions",
+      "criteria":{
+        "SeriesDescription": "*BOLD_RUN3*",
+        "SidecarFilename": "*BOLD_RUN3*"
+      },
+      "sidecarChanges": {
+        "TaskName": "spatial_directions"
+      }
+    },
+    {
+      "dataType": "func",
+      "modalityLabel": "bold",
+      "customLabels": "task-spatial_directions",
+      "criteria":{
+        "SeriesDescription": "*BOLD_RUN4*",
+        "SidecarFilename": "*BOLD_RUN4*"
+      },
+      "sidecarChanges": {
+        "TaskName": "spatial_directions"
+      }
+    },
+    {
+      "dataType": "func",
+      "modalityLabel": "bold",
+      "customLabels": "task-spatial_directions",
+      "criteria":{
+        "SeriesDescription": "*BOLD_RUN5*",
+        "SidecarFilename": "*BOLD_RUN5*"
+      },
+      "sidecarChanges": {
+        "TaskName": "spatial_directions"
+      }
+    },
+    {
+      "dataType": "func",
+      "modalityLabel": "bold",
+      "customLabels": "task-spatial_directions",
+      "criteria":{
+        "SeriesDescription": "*BOLD_RUN6*",
+        "SidecarFilename": "*BOLD_RUN6*"
+      },
+      "sidecarChanges": {
+        "TaskName": "spatial_directions"
+      }
+    }
+  ]
+}
