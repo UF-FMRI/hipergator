@@ -1,62 +1,61 @@
 #!/bin/bash
-#SBATCH --account=XXXXaccountnamehere
-#SBATCH --qos=XXXXqosnamehere
+#SBATCH --account=stevenweisberg
+#SBATCH --qos=stevenweisberg-b
 #SBATCH --job-name=pydeface
-#SBATCH --mail-type=END,FAIL 
-#SBATCH --mail-user=XXXXemailhere
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=stevenweisberg@ufl.edu
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=2
-#SBATCH --mem=5gb
-#SBATCH --time=30:00:00
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=4gb
+#SBATCH --time=12:00:00
 #SBATCH --output=pydeface_%j.out
 #pwd; hostname; date
 
 #This code defaces BIDS-compliant T1 data using pydeface.
-#Currently set up for 2 session studies.
 #Outputs 2 files for notes -- participants who are missing T1 data, and participants whose T1 data did not successfully deface.
 
-#MUST SET THESE
-BIDS_dir=/full_directory_path/BIDS_data_folder
-warning_dir=/full_directory_path/warnings_folder #I do not recommend this to be the same as your BIDS folder
+#Looping script sets these
+SUB=$1
+BIDS_dir_sub_ses=$2
+warning_dir=$3
 
 module load pydeface
 module load fsl
 
-for SUB in 1 2 3
+
+
+for imageOriginal in $BIDS_dir_sub_ses/sub-${SUB}*T1w.nii.gz
 do
 
-for ses in 1 2
-do
-
-#checking if T1 exists
-if [ -f $BIDS_dir/sub-${SUB}/ses-0${ses}/anat/sub-${SUB}_ses-0${ses}_T1w.nii ]; 
-    
+  #checking if T1 exists
+  if [ -f ${imageOriginal} ];
+    #create the basename of the file (without extension)
+    then image=$(basename $imageOriginal .nii.gz)
     #run pydeface
-    then pydeface $BIDS_dir/sub-${SUB}/ses-0${ses}/anat/sub-${SUB}_ses-0${ses}_T1w.nii
-  
+    pydeface ${imageOriginal}
+
     #checking if pydeface ran successfully
-    if [ -f $BIDS_dir/sub-${SUB}/ses-0${ses}/anat/sub-${SUB}_ses-0${ses}_T1w_defaced.nii ]; 
+    if [ -f ${BIDS_dir_sub_ses}/${image}*defaced* ];
       #remove the old T1 (that is not defaced)
-      then rm sub-${SUB}_ses-0${ses}_T1w.nii
+      then rm ${imageOriginal}
       #rename the defaced T1 to be BIDS compliant
-      mv $BIDS_dir/sub-${SUB}/ses-0${ses}/anat/sub-${SUB}_ses-0${ses}_T1w_defaced.nii $BIDS_dir/sub-${SUB}/ses-0${ses}/anat/sub-${SUB}_ses-0${ses}_T1w.nii
-    
-    #if pydeface did not run successfully 
+      mv ${BIDS_dir_sub_ses}/${image}*defaced* ${imageOriginal}
+
+    #if pydeface did not run successfully
     else
-      if [ ! -f $BIDS_dir/sub-${SUB}/ses-0${ses}/anat/sub-${SUB}_ses-0${ses}_T1w_defaced.nii ]; then
+      if [ ! -f ${BIDS_dir_sub_ses}/${image}*defaced* ]; then
       #make a note of the participant who was not defaced
-      echo "pydeface failed for sub-${SUB} session-0${ses}" >> $warning_dir/pydeface_failed_files.txt
+      echo "pydeface failed for ${imageOriginal} - pydeface didn't run" >> $warning_dir/pydeface_failed_files.txt
       fi
     fi
-    
-#if T1 does not exist
-else
-    if [ ! -f $BIDS_dir/sub-${SUB}/ses-0${ses}/anat/sub-${SUB}_ses-0${ses}_T1w.nii ]; then
-    #make a note. check this later to make sure missing files are supposed to be missing
-    echo "pydeface failed for sub-${SUB} session-0${ses}" >> $warning_dir/pydeface_nonexistant_files.txt
-    fi
-fi
+
+  #if T1 does not exist
+  else
+      if [ ! -f ${imageOriginal} ]; then
+      #make a note. check this later to make sure missing files are supposed to be missing
+      echo "pydeface failed for ${imageOriginal} - T1 does not exist" >> $warning_dir/pydeface_nonexistent_files.txt
+      fi
+  fi
 
 
-done
 done
