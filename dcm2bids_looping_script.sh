@@ -26,7 +26,7 @@ module load dcm2bids
 module load mricrogl
 
 # loops through subjects
-for SUB in {112..128}
+for SUB in {107..128}
 do
 
 

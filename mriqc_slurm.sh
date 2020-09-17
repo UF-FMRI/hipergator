@@ -1,39 +1,39 @@
 #!/bin/bash
-#SBATCH --account=XXXXaccountnamehere
-#SBATCH --qos=XXXXqosnamehere
+#SBATCH --account=stevenweisberg
+#SBATCH --qos=stevenweisberg-b
 #SBATCH --job-name=mriqc
-#SBATCH --mail-type=END,FAIL 
-#SBATCH --mail-user=XXXXemailhere
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=stevenweisberg@ufl.edu
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=24gb
-#SBATCH --time=60:00:00
+#SBATCH --time=12:00:00
 #SBATCH --output=mriqc_%j.out
 #pwd; hostname; date
- 
+
 module load singularity
 
-singularity_dir=/full_directory_path/singularity_location_folder
-BIDS_dir=/full_directory_path/BIDS_data_folder
-MRIQC_output_dir=/full_directory_path/MRIQC_folder
-MRIQC_version=mriqc_0.15.0.img
-#fd_thres= #set this to voxel size
+#set up the following paths
+BIDS_dir=/blue/stevenweisberg/stevenweisberg/MVPA_ARROWS/
+MRIQC_output_dir=/blue/stevenweisberg/stevenweisberg/MVPA_ARROWS/derivatives/mriqc
+code_dir=/blue/stevenweisberg/stevenweisberg/MVPA_ARROWS/code/hipergator
+MRIQC_singularity=/blue/stevenweisberg/stevenweisberg/hipergator_neuro/mriqc/mriqc_latest.sif
 
- 
-# RUNNING PARTICULAR SUBJECTS
-for SUB in	1 2 3
+# loops through subjects
+for SUB in {107..128}
 do
 
+
+  # Skip 111 and 119
+  [ "$SUB" -eq 111 ] && continue
+  [ "$SUB" -eq 119 ] && continue
+
+  # loops through sessions. Get rid of this loop entirely if there is only one session. Also get rid of '-s 0${ses}' in step 2
+  for ses in 1
+  do
+
 # running dataset for single participants
-singularity run --cleanenv $singularity_dir/$MRIQC_version $BIDS_dir $MRIQC_output_dir participant --participant-label $SUB --hmc-fsl --fd_thres 3 --work-dir $MRIQC_output_dir --float32 #--n_proc 4
+  singularity run --cleanenv $MRIQC_singularity $BIDS_dir $MRIQC_output_dir participant --participant-label $SUB --hmc-fsl --fd_thres 2 --work-dir $MRIQC_output_dir --float32 group
 
+  done
 done
-
-
-# RUNNING WHOLE DATASET
-
-# running whole dataset for single and group. change memory requested -- 10gb is barely enough
-#singularity run --cleanenv $singularity_dir/$MRIQC_version $BIDS_dir $MRIQC_output_dir participant --hmc-fsl --fd_thres 3 --work-dir $MRIQC_output_dir --float32 #--n_proc 4
-
-# running for just group level. Change memory requested -- 5gb seems to be more than enough
-#singularity run --cleanenv $singularity_dir/$MRIQC_version $BIDS_dir $MRIQC_output_dir group --hmc-fsl --fd_thres 3 --work-dir $MRIQC_output_dir --float32 # --n_proc 4
