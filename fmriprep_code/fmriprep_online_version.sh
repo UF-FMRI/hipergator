@@ -13,9 +13,9 @@
 #SBATCH --mail-type=END,FAIL
 # ------------------------------------------
 
-BIDS_DIR="/blue/stevenweisberg/stevenweisberg/MVPA_ARROWS/"
+BIDS_DIR="/blue/stevenweisberg/stevenweisberg/rtQuest/rtQuest"
 DERIVS_DIR="derivatives/fmriprep"
-LOCAL_FREESURFER_DIR="/blue/stevenweisberg/stevenweisberg/MVPA_ARROWS/derivatives/freesurfer"
+LOCAL_FREESURFER_DIR="/blue/stevenweisberg/stevenweisberg/rtQuest/rtQuest/derivatives/freesurfer"
 
 # Prepare some writeable bind-mount points.
 TEMPLATEFLOW_HOST_HOME=$HOME/.cache/templateflow
