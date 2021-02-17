@@ -22,7 +22,9 @@ output_dir=OUTPUT_sed
 singularity_dir=SINGULARITY_sed
 freesurfer_dir=FREESURFER_sed
 
+echo $freesurfer_dir/license.txt
+
 singularity run --cleanenv -B $BIDS_dir:/data $singularity_dir $BIDS_dir $output_dir \
 participant \
 --participant-label SUB_sed \
---omp-nthreads 8 --mem-mb 12000 --fs-license-file -B $freesurfer_dir/license.txt
+--omp-nthreads 8 --mem-mb 12000 --fs-license-file $freesurfer_dir/license.txt --anat-only
